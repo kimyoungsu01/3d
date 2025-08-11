@@ -15,6 +15,7 @@ public enum ConsumableType
   Hunger,
 }
 
+[System.Serializable]
 public  class itemDataConsumable
 {
     public ConsumableType type;
@@ -38,4 +39,5 @@ public class itemData : ScriptableObject
 
     [Header("Consumable")]
     public itemDataConsumable[] consumables;
+
 }

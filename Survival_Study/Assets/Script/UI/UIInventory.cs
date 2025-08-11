@@ -28,6 +28,9 @@ public class UIInventory : MonoBehaviour
     private PlayerController controller; // 플레이어 컨트롤러 스크립트
     private PlayerCondition condition; // 플레이어 상태 스크립트
 
+    itemData selecteditem;
+    int selecteditemindex = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -167,7 +170,27 @@ public class UIInventory : MonoBehaviour
     }
 
     public void SelectItem(int index) 
-    { 
-    
+    {
+        if (Slots[index].item == null) return;
+
+        selecteditem = Slots[index].item;
+        selecteditemindex = index;
+
+        selecteditemName.text = selecteditem.displayName;
+        selecteditemDescription.text = selecteditem.description;
+
+        selecteditemName.text = string.Empty;
+        selectedStatValue.text = string.Empty;
+
+        for (int i = 0; i < selecteditem.consumables.Length; i++) 
+        {
+            selecteditemName.text += selecteditem.consumables[i].type.ToString() + "\n";
+            selectedStatValue.text += selecteditem.consumables[i].value.ToString() + "\n"; 
+        }
+
+        useButton.SetActive(selecteditem.type == ItemType.Consumable);
+        equipButton.SetActive(selecteditem.type == ItemType.Equipable && !Slots[index].equipped);
+        unequipButton.SetActive(selecteditem.type == ItemType.Equipable && Slots[index].equipped);
+        dropButton.SetActive(true);
     }
 }
