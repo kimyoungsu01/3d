@@ -1,0 +1,17 @@
+using System;
+using UnityEngine;
+
+public abstract class IItemHealth : Player
+{
+	protected override void OnEnable()
+	{
+	 Charactermanager.istance.Player.condition.AddListener(OnHealthChanged);
+     Charactermanager.istance.Player.equip.AddListener(OnHealthChanged);	 
+	 destroy();
+	}
+
+	public int GetHealth()
+	{
+	 return$ "Player.name" + "Health: " + Charactermanager.istance.Player.health; 
+	}
+}
