@@ -1,9 +1,11 @@
 using System;
+using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class UIInventory : MonoBehaviour
 {
@@ -84,83 +86,83 @@ public class UIInventory : MonoBehaviour
         return InventoryWindow.activeInHierarchy;
     }
 
-    //public void AddItem() 
-    //{
-    //    itemData data = CharacterManager.Instance.Player.itemData;
+    public void AddItem()
+    {
+        itemData data = CharacterManager.Instance.Player.itemData;
 
-    //    // 아이템이 중복이 가능한지? canStack
-    //    if (data.canStack) 
-    //    {
-    //      ItemSlot slot = GetItemStack(data);
-    //        if (slot != null) 
-    //        { 
-    //            slot.quantity++; // 아이템 슬롯의 수량 증가
-    //            CharacterManager.Instance.Player.itemData = null; // 아이템 데이터 초기화
-    //            return; // 아이템 스택이 있다면 종료
-    //        }
-    //    }
+        // 아이템이 중복이 가능한지? canStack
+        if (data.canStack)
+        {
+            ItemSlot slot = GetItemStack(data);
+            if (slot != null)
+            {
+                slot.quantity++; // 아이템 슬롯의 수량 증가
+                CharacterManager.Instance.Player.itemData = null; // 아이템 데이터 초기화
+                return; // 아이템 스택이 있다면 종료
+            }
+        }
 
-        // 비어있는 슬롯 가져온다
-        //ItemSlot emptySlot = GetEmptySlot();
+       //비어있는 슬롯 가져온다
+       ItemSlot emptySlot = GetEmptySlot();
 
-        //// 있다면
-        //if (emptySlot != null)
-        //{
-        //    emptySlot.item = data;
-        //    emptySlot.quantity = 1; // 아이템 슬롯의 수량을 1로 설정
-        //    UpdateUI(); // UI 업데이트
-        //    CharacterManager.Instance.Player.itemData = null; // 아이템 데이터 초기화
-        //    return; // 아이템이 추가되었으므로 종료
-        //}
+        // 있다면
+        if (emptySlot != null)
+        {
+            emptySlot.item = data;
+            emptySlot.quantity = 1; // 아이템 슬롯의 수량을 1로 설정
+            UpdateUI(); // UI 업데이트
+            CharacterManager.Instance.Player.itemData = null; // 아이템 데이터 초기화
+            return; // 아이템이 추가되었으므로 종료
+        }
 
-        //// 없다면
-        //ThrowItem(data);
-        //CharacterManager.Instance.Player.itemData = null;
-    //}
+        // 없다면
+        ThrowItem(data);
+        CharacterManager.Instance.Player.itemData = null;
+    }
 
-    //void UpdateUI() 
-    //{
-    //    for (int i = 0; i < Slots.Length; i++) 
-    //    {
-    //        if (Slots[i] != null)
-    //        {
-    //            Slots[i].Set();
-    //        }
-            
-    //        else 
-    //        {
-    //            Slots[i].Clear();
-    //        }
-    //    }
-    //}
+    void UpdateUI()
+    {
+        for (int i = 0; i < Slots.Length; i++)
+        {
+            if (Slots[i].item != null)
+            {
+                Slots[i].Set();
+            }
 
-    //ItemSlot GetItemStack(itemData data)
-    //{
-    //    for (int i = 0; i < Slots.Length; i++)
-    //    {
-    //        if (Slots[i].item == data && Slots[i].quantity < data.maxStackAmount) 
-    //        {
-    //            return Slots[i];
-    //        }
-    //    }
+            else
+            {
+                Slots[i].Clear();
+            }
+        }
+    }
 
-    //    return null; // TODO: 아이템 스택을 가져오는 로직 구현
-    //}
+    ItemSlot GetItemStack(itemData data)
+    {
+        for (int i = 0; i < Slots.Length; i++)
+        {
+            if (Slots[i].item == data && Slots[i].quantity < data.maxStackAmount)
+            {
+                return Slots[i];
+            }
+        }
 
-    //ItemSlot GetEmptySlot() 
-    //{
-    //    for (int i = 0; i < Slots.Length; i++) 
-    //    {
-    //        if (Slots[i].item == null) 
-    //        {
-    //            return Slots[i];
-    //        }
-    //    }
-    //    return null; // TODO: 빈 슬롯을 가져오는 로직 구현
-    //}
+        return null; // TODO: 아이템 스택을 가져오는 로직 구현
+    }
 
-    //void ThrowItem(itemData data) 
-    //{
-    //    Instantiate(data.DropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360));
-    //}
+    ItemSlot GetEmptySlot()
+    {
+        for (int i = 0; i < Slots.Length; i++)
+        {
+            if (Slots[i].item == null)
+            {
+                return Slots[i];
+            }
+        }
+        return null; // TODO: 빈 슬롯을 가져오는 로직 구현
+    }
+
+    void ThrowItem(itemData data)
+    {
+        Instantiate(data.DropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360));
+    }
 }

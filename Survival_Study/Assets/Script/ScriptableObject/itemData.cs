@@ -34,6 +34,7 @@ public class itemData : ScriptableObject
     [Header("Stacking")]
     public bool canStack;
     public int maxStackSize;
+    public int maxStackAmount;
 
     [Header("Consumable")]
     public itemDataConsumable[] consumables;

@@ -43,6 +43,7 @@ public class Interaction : MonoBehaviour
                     SetPromptText();
                 }
             }
+            
             else
             {
                 curInteractGameObject = null;
