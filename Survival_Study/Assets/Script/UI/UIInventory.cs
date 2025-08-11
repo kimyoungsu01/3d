@@ -39,7 +39,7 @@ public class UIInventory : MonoBehaviour
         dropPosition = CharacterManager.Instance.Player.dropPosition;
 
         controller.inventory += Toggle; // 인벤토리 액션을 토글 함수로 설정
-        //CharacterManager.Instance.Player.addItem += AddItem;
+        CharacterManager.Instance.Player.addItem += AddItem;
 
         InventoryWindow.SetActive(false); // 인벤토리 창을 비활성화
         Slots = new ItemSlot[slotPanel.childCount];
@@ -192,5 +192,49 @@ public class UIInventory : MonoBehaviour
         equipButton.SetActive(selecteditem.type == ItemType.Equipable && !Slots[index].equipped);
         unequipButton.SetActive(selecteditem.type == ItemType.Equipable && Slots[index].equipped);
         dropButton.SetActive(true);
+    }
+
+    public void OnUseButton() 
+    {
+        if (selecteditem.type == ItemType.Consumable) 
+        {
+            for (int i = 0; i < selecteditem.consumables.Length; i++) 
+            {
+                switch (selecteditem.consumables[i].type) 
+                {
+                    case ConsumableType.Health :
+                        condition.Heal(selecteditem.consumables[i].value);
+                        break;
+
+                    case ConsumableType.Hunger :
+                        condition.Eat(selecteditem.consumables[i].value);
+                        break;
+                
+                }
+            
+            }
+            RemoveSelectedItem();
+        }
+    }
+
+    public void OnDropButton()
+    {
+        ThrowItem(selecteditem);
+        RemoveSelectedItem();
+    }
+
+    public void RemoveSelectedItem() 
+    {
+        Slots[selecteditemindex].quantity--;
+
+        if (Slots[selecteditemindex].quantity <= 0) 
+        {
+            selecteditem = null;
+            Slots[selecteditemindex].item = null;
+            selecteditemindex = -1;
+            ClearSelectedItemWindow();
+        }
+
+        UpdateUI();
     }
 }
