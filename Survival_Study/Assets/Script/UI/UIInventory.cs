@@ -165,4 +165,9 @@ public class UIInventory : MonoBehaviour
     {
         Instantiate(data.DropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360));
     }
+
+    public void SelectItem(int index) 
+    { 
+    
+    }
 }

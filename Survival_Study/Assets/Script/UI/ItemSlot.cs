@@ -47,4 +47,9 @@ public class ItemSlot : MonoBehaviour
         icon.gameObject.SetActive(false); // 아이콘 비활성화
         quantityText.text = string.Empty;
     }
+
+    public void OnClickButton()
+    {
+        Inventory.SelectItem(index);
+    }
 }
