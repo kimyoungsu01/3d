@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8662092422501098156}
   - component: {fileID: 2239191201337645032}
   - component: {fileID: 9003523591077215920}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: item_Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36175b7d7db1f254582f74164e87af9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 0}
 --- !u!1 &6570865023227620405
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +108,7 @@ GameObject:
   - component: {fileID: 6588521838053693992}
   - component: {fileID: 4359011304595097448}
   - component: {fileID: 2057427686766994295}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Log
   m_TagString: Untagged
   m_Icon: {fileID: 0}

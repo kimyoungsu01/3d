@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private float camCurXRot;
     public float lookSensitivity;
     private Vector2 mouseDelta;
-    public bool canLock = true; // 카메라 잠금 여부
+    public bool canLock = true;
 
     public Action inventory; // 인벤토리 액션
     private Rigidbody _rigidbody;
@@ -46,11 +46,11 @@ public class PlayerController : MonoBehaviour
         if (canLock) 
         {
             CameraLook();
-            Debug.DrawRay(transform.position + (transform.forward * 0.2f) + (transform.up * 0.1f), Vector3.down * 0.5f, Color.red, 0.1f);
         }
     }
     void Move()
     {
+        Debug.DrawRay(transform.position + (transform.forward * 0.2f) + (transform.up * 0.1f), Vector3.down * 0.5f, Color.red, 0.1f);
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x; // 현재 방향과 입력값을 곱해서 이동 방향을 구함
         dir *= MoveSpeed;
         dir.y = _rigidbody.velocity.y; // y축 속도는 유지
@@ -118,6 +118,7 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Started) 
         {
             inventory?.Invoke(); // 인벤토리 액션을 호출
+            ToggleCursor();
         }
     }
 
@@ -125,6 +126,7 @@ public class PlayerController : MonoBehaviour
     { 
         bool toggle = Cursor.lockState == CursorLockMode.Locked;
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
-        canLock = !toggle; // 카메라 잠금 상태를 반전
+        Cursor.visible = !toggle; 
+        
     }
 }
