@@ -500,7 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0.4
-  fullDayLength: 30000
+  fullDayLength: 300000
   startTime: 0.4
   noon: {x: 90, y: 0, z: 0}
   sun: {fileID: 705507994}
@@ -994,7 +994,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1503559225}
         m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
-        m_MethodName: OnEquipeButton
+        m_MethodName: OnEquipButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1977,7 +1977,19 @@ MonoBehaviour:
     m_ActionId: e4bba28a-dc90-4bd7-b8be-a6cd08bd7a1d
     m_ActionName: Player/Interaction[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 859326353}
+        m_TargetAssemblyTypeName: EquipMent, Assembly-CSharp
+        m_MethodName: OnAttackInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: de9c3095-6253-4c32-9962-b97e9dccfdfd
     m_ActionName: Player/Attact[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
@@ -2723,7 +2735,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1503559225}
         m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
-        m_MethodName: OnEquipButton
+        m_MethodName: OnEquipeButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

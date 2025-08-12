@@ -15,15 +15,27 @@ public class EquipTool : Equip
     public bool doesDealDamage;
     public int damage;
 
+    private Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
+    }
+    
+    public override void OnAttackInput() //애니메이터를 동작시키는 함수
+    {
+        if (!attacking) 
+        { 
+            attacking = true;
+            animator.SetTrigger("Attact");
+            Invoke("OnCanAttac", attackRate);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void OnCanAttack() 
+    { 
+      attacking = false;
     }
+
 }

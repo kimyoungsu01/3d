@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,24 +9,24 @@ using Random = UnityEngine.Random;
 
 public class UIInventory : MonoBehaviour
 {
-    public ItemSlot[] Slots; // ¾ÆÀÌÅÛ ½½·Ô ¹è¿­
+    public ItemSlot[] Slots; // ì•„ì´í…œ ìŠ¬ë¡¯ ë°°ì—´
 
-    public GameObject InventoryWindow; // ÀÎº¥Åä¸® ÆĞ³Î ¿ÀºêÁ§Æ®
-    public Transform slotPanel; // ½½·Ô ÆĞ³Î Æ®·£½ºÆû
+    public GameObject InventoryWindow; // ì¸ë²¤í† ë¦¬ íŒ¨ë„ ì˜¤ë¸Œì íŠ¸
+    public Transform slotPanel; // ìŠ¬ë¡¯ íŒ¨ë„ íŠ¸ëœìŠ¤í¼
     public Transform dropPosition;
 
     [Header("Select Item")]
-    public TextMeshProUGUI selecteditemName; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ÀÌ¸§
-    public TextMeshProUGUI selecteditemDescription; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ¼³¸í
-    public TextMeshProUGUI selectedStatName; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ½ºÅÈ ÀÌ¸§
-    public TextMeshProUGUI selectedStatValue; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ½ºÅÈ °ª
-    public GameObject useButton; // »ç¿ë ¹öÆ° ÅØ½ºÆ®
-    public GameObject equipButton; // »ç¿ë ¹öÆ° ÅØ½ºÆ®
-    public GameObject unequipButton; // »ç¿ë ¹öÆ° ÅØ½ºÆ®
-    public GameObject dropButton; // »ç¿ë ¹öÆ° ÅØ½ºÆ®
+    public TextMeshProUGUI selecteditemName; // ì„ íƒëœ ì•„ì´í…œ ì´ë¦„
+    public TextMeshProUGUI selecteditemDescription; // ì„ íƒëœ ì•„ì´í…œ ì„¤ëª…
+    public TextMeshProUGUI selectedStatName; // ì„ íƒëœ ì•„ì´í…œ ìŠ¤íƒ¯ ì´ë¦„
+    public TextMeshProUGUI selectedStatValue; // ì„ íƒëœ ì•„ì´í…œ ìŠ¤íƒ¯ ê°’
+    public GameObject useButton; // ì‚¬ìš© ë²„íŠ¼ í…ìŠ¤íŠ¸
+    public GameObject equipButton; // ì‚¬ìš© ë²„íŠ¼ í…ìŠ¤íŠ¸
+    public GameObject unequipButton; // ì‚¬ìš© ë²„íŠ¼ í…ìŠ¤íŠ¸
+    public GameObject dropButton; // ì‚¬ìš© ë²„íŠ¼ í…ìŠ¤íŠ¸
 
-    private PlayerController controller; // ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯ ½ºÅ©¸³Æ®
-    private PlayerCondition condition; // ÇÃ·¹ÀÌ¾î »óÅÂ ½ºÅ©¸³Æ®
+    private PlayerController controller; // í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬ ìŠ¤í¬ë¦½íŠ¸
+    private PlayerCondition condition; // í”Œë ˆì´ì–´ ìƒíƒœ ìŠ¤í¬ë¦½íŠ¸
 
     itemData selecteditem;
     int selecteditemindex = 0;
@@ -40,18 +40,20 @@ public class UIInventory : MonoBehaviour
         condition = CharacterManager.Instance.Player.condition;
         dropPosition = CharacterManager.Instance.Player.dropPosition;
 
-        controller.inventory += Toggle; // ÀÎº¥Åä¸® ¾×¼ÇÀ» Åä±Û ÇÔ¼ö·Î ¼³Á¤
+        controller.inventory += Toggle; // ì¸ë²¤í† ë¦¬ ì•¡ì…˜ì„ í† ê¸€ í•¨ìˆ˜ë¡œ ì„¤ì •
         CharacterManager.Instance.Player.addItem += AddItem;
 
-        InventoryWindow.SetActive(false); // ÀÎº¥Åä¸® Ã¢À» ºñÈ°¼ºÈ­
+        InventoryWindow.SetActive(false); // ì¸ë²¤í† ë¦¬ ì°½ì„ ë¹„í™œì„±í™”
         Slots = new ItemSlot[slotPanel.childCount];
 
         for (int i = 0; i < Slots.Length; i++)
         {
             Slots[i] = slotPanel.GetChild(i).GetComponent<ItemSlot>();
-            Slots[i].index = i; // °¢ ½½·Ô¿¡ ÀÎµ¦½º ÇÒ´ç
-            Slots[i].Inventory = this; // °¢ ½½·Ô¿¡ UIInventory ½ºÅ©¸³Æ®¸¦ ÇÒ´ç
+            Slots[i].index = i; // ê° ìŠ¬ë¡¯ì— ì¸ë±ìŠ¤ í• ë‹¹
+            Slots[i].Inventory = this; // ê° ìŠ¬ë¡¯ì— UIInventory ìŠ¤í¬ë¦½íŠ¸ë¥¼ í• ë‹¹
+            Slots[i].Clear();
         }
+        ClearSelectedItemWindow();
     }
 
     // Update is called once per frame
@@ -62,32 +64,20 @@ public class UIInventory : MonoBehaviour
 
     void ClearSelectedItemWindow()
     {
-        selecteditemName.text = string.Empty; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ÀÌ¸§ ÃÊ±âÈ­
-        selecteditemDescription.text = string.Empty; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ¼³¸í ÃÊ±âÈ­
-        selectedStatName.text = string.Empty; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ½ºÅÈ ÀÌ¸§ ÃÊ±âÈ­
-        selectedStatValue.text = string.Empty; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ½ºÅÈ °ª ÃÊ±âÈ­
+        selecteditemName.text = string.Empty; // ì„ íƒëœ ì•„ì´í…œ ì´ë¦„ ì´ˆê¸°í™”
+        selecteditemDescription.text = string.Empty; // ì„ íƒëœ ì•„ì´í…œ ì„¤ëª… ì´ˆê¸°í™”
+        selectedStatName.text = string.Empty; // ì„ íƒëœ ì•„ì´í…œ ìŠ¤íƒ¯ ì´ë¦„ ì´ˆê¸°í™”
+        selectedStatValue.text = string.Empty; // ì„ íƒëœ ì•„ì´í…œ ìŠ¤íƒ¯ ê°’ ì´ˆê¸°í™”
 
-        useButton.SetActive(false); // »ç¿ë ¹öÆ° ºñÈ°¼ºÈ­
-        equipButton.SetActive(false); // ÀåÂø ¹öÆ° ºñÈ°¼ºÈ­
-        unequipButton.SetActive(false); // ÇØÁ¦ ¹öÆ° ºñÈ°¼ºÈ­
+        useButton.SetActive(false); // ì‚¬ìš© ë²„íŠ¼ ë¹„í™œì„±í™”
+        equipButton.SetActive(false); // ì¥ì°© ë²„íŠ¼ ë¹„í™œì„±í™”
+        unequipButton.SetActive(false); // í•´ì œ ë²„íŠ¼ ë¹„í™œì„±í™”
         dropButton.SetActive(false);
     }
 
     public void Toggle()
     {
-        if (IsOpen())
-        {
-            InventoryWindow.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-
-        else 
-        {
-            InventoryWindow.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
+        InventoryWindow.SetActive(!IsOpen());
     }
 
     public bool IsOpen()
@@ -99,32 +89,32 @@ public class UIInventory : MonoBehaviour
     {
         itemData data = CharacterManager.Instance.Player.itemData;
 
-        // ¾ÆÀÌÅÛÀÌ Áßº¹ÀÌ °¡´ÉÇÑÁö? canStack
+        // ì•„ì´í…œì´ ì¤‘ë³µì´ ê°€ëŠ¥í•œì§€? canStack
         if (data.canStack)
         {
             ItemSlot slot = GetItemStack(data);
             if (slot != null)
             {
-                slot.quantity++; // ¾ÆÀÌÅÛ ½½·ÔÀÇ ¼ö·® Áõ°¡
-                CharacterManager.Instance.Player.itemData = null; // ¾ÆÀÌÅÛ µ¥ÀÌÅÍ ÃÊ±âÈ­
-                return; // ¾ÆÀÌÅÛ ½ºÅÃÀÌ ÀÖ´Ù¸é Á¾·á
+                slot.quantity++; // ì•„ì´í…œ ìŠ¬ë¡¯ì˜ ìˆ˜ëŸ‰ ì¦ê°€
+                CharacterManager.Instance.Player.itemData = null; // ì•„ì´í…œ ë°ì´í„° ì´ˆê¸°í™”
+                return; // ì•„ì´í…œ ìŠ¤íƒì´ ìˆë‹¤ë©´ ì¢…ë£Œ
             }
         }
 
-       //ºñ¾îÀÖ´Â ½½·Ô °¡Á®¿Â´Ù
+       //ë¹„ì–´ìˆëŠ” ìŠ¬ë¡¯ ê°€ì ¸ì˜¨ë‹¤
        ItemSlot emptySlot = GetEmptySlot();
 
-        // ÀÖ´Ù¸é
+        // ìˆë‹¤ë©´
         if (emptySlot != null)
         {
             emptySlot.item = data;
-            emptySlot.quantity = 1; // ¾ÆÀÌÅÛ ½½·ÔÀÇ ¼ö·®À» 1·Î ¼³Á¤
-            UpdateUI(); // UI ¾÷µ¥ÀÌÆ®
-            CharacterManager.Instance.Player.itemData = null; // ¾ÆÀÌÅÛ µ¥ÀÌÅÍ ÃÊ±âÈ­
-            return; // ¾ÆÀÌÅÛÀÌ Ãß°¡µÇ¾úÀ¸¹Ç·Î Á¾·á
+            emptySlot.quantity = 1; // ì•„ì´í…œ ìŠ¬ë¡¯ì˜ ìˆ˜ëŸ‰ì„ 1ë¡œ ì„¤ì •
+            UpdateUI(); // UI ì—…ë°ì´íŠ¸
+            CharacterManager.Instance.Player.itemData = null; // ì•„ì´í…œ ë°ì´í„° ì´ˆê¸°í™”
+            return; // ì•„ì´í…œì´ ì¶”ê°€ë˜ì—ˆìœ¼ë¯€ë¡œ ì¢…ë£Œ
         }
 
-        // ¾ø´Ù¸é
+        // ì—†ë‹¤ë©´
         ThrowItem(data);
         CharacterManager.Instance.Player.itemData = null;
     }
@@ -155,7 +145,7 @@ public class UIInventory : MonoBehaviour
             }
         }
 
-        return null; // TODO: ¾ÆÀÌÅÛ ½ºÅÃÀ» °¡Á®¿À´Â ·ÎÁ÷ ±¸Çö
+        return null; // TODO: ì•„ì´í…œ ìŠ¤íƒì„ ê°€ì ¸ì˜¤ëŠ” ë¡œì§ êµ¬í˜„
     }
 
     ItemSlot GetEmptySlot()
@@ -167,7 +157,7 @@ public class UIInventory : MonoBehaviour
                 return Slots[i];
             }
         }
-        return null; // TODO: ºó ½½·ÔÀ» °¡Á®¿À´Â ·ÎÁ÷ ±¸Çö
+        return null; // TODO: ë¹ˆ ìŠ¬ë¡¯ì„ ê°€ì ¸ì˜¤ëŠ” ë¡œì§ êµ¬í˜„
     }
 
     void ThrowItem(itemData data)

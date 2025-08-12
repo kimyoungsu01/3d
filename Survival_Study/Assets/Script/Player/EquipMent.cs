@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class EquipMent : MonoBehaviour
 {
@@ -35,6 +36,14 @@ public class EquipMent : MonoBehaviour
         { 
           Destroy(curEquip.gameObject);
             curEquip = null;
+        }
+    }
+
+    public void OnAttackInput(InputAction.CallbackContext context) 
+    {
+        if (context.phase == InputActionPhase.Performed && curEquip != null && controller.canLock) 
+        {
+            curEquip.OnAttackInput();
         }
     }
 }
